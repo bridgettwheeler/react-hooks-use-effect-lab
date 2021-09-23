@@ -7,13 +7,17 @@ function Question({ question, onAnswered }) {
     if (timeRemaining === 0) {
       setTimeRemaining(10)
       onAnswered(false)
-    } else {
-      setTimeout(() => setTimeRemaining(timeRemaining - 1), 1000);
+      return
+    }
+    const timerID = setTimeout(() => setTimeRemaining(timeRemaining - 1), 1000);
+    
 
-      return function cleanup() {
-        clearInterval(timerID);
-      };
-  }});
+    return function () {
+      clearTimeout(timerID);
+    };
+
+      
+  },[timeRemaining, onAnswered]);
 
 
   function handleAnswer(isCorrect) {
